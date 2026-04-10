@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Teamwork Pre-Survey — WSU</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:16px}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f7f4;color:#1a1a1a;min-height:100vh;padding-bottom:2rem}
+
+  /* Header */
+  .top-bar{background:#4B3EA0;color:#fff;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+  .top-bar h1{font-size:15px;font-weight:600;letter-spacing:.01em}
+  .top-bar .anon{font-size:11px;opacity:.8;background:rgba(255,255,255,.2);border-radius:20px;padding:2px 10px}
+
+  /* Progress */
+  .prog-bar-wrap{background:#E0DDF5;height:4px}
+  .prog-bar{background:#4B3EA0;height:4px;transition:width .4s ease}
+
+  /* Card */
+  .card{background:#fff;border-radius:12px;border:1px solid #e8e6f0;margin:1rem;padding:1.25rem}
+  .card + .card{margin-top:.75rem}
+
+  /* Section badge */
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.06em;padding:3px 10px;border-radius:20px;margin-bottom:.75rem}
+  .section-title{font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:.25rem}
+  .section-sub{font-size:13px;color:#666;margin-bottom:1rem;line-height:1.5}
+
+  /* Note box */
+  .note-box{background:#F0EFF9;border-left:3px solid #4B3EA0;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:12px;color:#3C3489;margin-bottom:1rem;line-height:1.5}
+
+  /* Question text */
+  .q-text{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:.75rem;line-height:1.5}
+
+  /* Choice buttons */
+  .choice-grid{display:grid;gap:6px}
+  .choice-grid.cols2{grid-template-columns:1fr 1fr}
+  .choice-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+  .choice-grid.cols4{grid-template-columns:1fr 1fr}
+  .choice-btn{width:100%;text-align:left;background:#f8f7f4;border:1px solid #ddd;border-radius:8px;padding:10px 12px;font-size:14px;color:#1a1a1a;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .15s;-webkit-tap-highlight-color:transparent}
+  .choice-btn:active{transform:scale(.98)}
+  .choice-btn.sel-purple{background:#EEEDFE;border-color:#534AB7;color:#3C3489;font-weight:500}
+  .choice-btn.sel-teal{background:#E1F5EE;border-color:#1D9E75;color:#085041;font-weight:500}
+  .choice-btn.sel-amber{background:#FEF3DC;border-color:#BA7517;color:#633806;font-weight:500}
+  .dot{width:10px;height:10px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background .15s}
+  .sel-purple .dot{background:#4B3EA0}
+  .sel-teal .dot{background:#1D9E75}
+  .sel-amber .dot{background:#BA7517}
+
+  /* Likert */
+  .likert-hdr-row{display:grid;grid-template-columns:1fr repeat(5,40px);gap:4px;margin-bottom:6px;padding:0 2px}
+  .lhdr{font-size:10px;color:#888;text-align:center;line-height:1.3}
+  .likert-row{display:grid;grid-template-columns:1fr repeat(5,40px);gap:4px;align-items:center;padding:6px 2px;border-radius:8px}
+  .likert-row:nth-child(even){background:#fafaf8}
+  .ltext{font-size:13px;color:#1a1a1a;line-height:1.4;padding-right:4px}
+  .lnum{height:36px;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#888;cursor:pointer;background:#f8f7f4;transition:all .15s;-webkit-tap-highlight-color:transparent}
+  .lnum:active{transform:scale(.93)}
+  .lnum.lpicked{color:#fff;font-weight:600}
+
+  /* Bar chart */
+  .bar-section{margin-top:.75rem;padding-top:.75rem;border-top:1px solid #eee}
+  .bar-title{font-size:11px;font-weight:600;color:#888;letter-spacing:.05em;margin-bottom:.5rem}
+  .bar-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .bar-lbl{font-size:11px;color:#666;width:80px;text-align:right;flex-shrink:0;line-height:1.2}
+  .bar-track{flex:1;height:16px;background:#eee;border-radius:4px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
+  .bar-pct{font-size:11px;font-weight:500;color:#666;width:30px;flex-shrink:0}
+
+  /* Open text */
+  .open-q{margin-bottom:1rem}
+  .open-q label{display:block;font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:.5rem;line-height:1.5}
+  .open-q textarea{width:100%;border:1px solid #ddd;border-radius:8px;padding:.75rem;font-size:14px;font-family:inherit;color:#1a1a1a;background:#fafafa;resize:none;min-height:80px;line-height:1.5}
+  .open-q textarea:focus{outline:none;border-color:#4B3EA0;background:#fff}
+
+  /* Navigation */
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:1rem;position:sticky;bottom:0;background:#f8f7f4;border-top:1px solid #e8e6f0}
+  .nav-back{background:#fff;border:1px solid #ddd;border-radius:8px;padding:10px 20px;font-size:14px;color:#444;cursor:pointer}
+  .nav-next{background:#4B3EA0;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s}
+  .nav-next:disabled{background:#ccc;cursor:not-allowed}
+  .nav-next.teal{background:#1D9E75}
+  .nav-next.amber{background:#BA7517}
+  .nav-dots{display:flex;gap:5px;align-items:center}
+  .ndot{width:6px;height:6px;border-radius:50%;background:#ccc;transition:all .3s}
+  .ndot.active{background:#4B3EA0;width:16px;border-radius:3px}
+  .ndot.done{background:#4B3EA0}
+
+  /* Progress label */
+  .prog-label{font-size:11px;color:#888;text-align:center;padding:.25rem;background:#f8f7f4}
+
+  /* Welcome screen */
+  .welcome-icon{width:64px;height:64px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+  .welcome-icon svg{width:28px;height:28px}
+  .welcome-title{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:.25rem;text-align:center}
+  .welcome-sub{font-size:13px;color:#4B3EA0;text-align:center;font-style:italic;margin-bottom:1rem}
+  .welcome-body{font-size:14px;color:#555;line-height:1.6;text-align:center;margin-bottom:1.5rem;max-width:340px;margin-left:auto;margin-right:auto}
+  .welcome-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:1.5rem}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;background:#EEEDFE;color:#3C3489;border-radius:20px;padding:4px 12px}
+
+  /* End screen */
+  .end-wrap{text-align:center;padding:1rem}
+  .end-icon{width:64px;height:64px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+  .end-title{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:.5rem}
+  .end-sub{font-size:13px;color:#555;line-height:1.6;max-width:320px;margin:0 auto 1.5rem}
+  .next-steps{background:#EEEDFE;border-radius:12px;padding:1rem 1.25rem;text-align:left;max-width:340px;margin:0 auto 1.5rem}
+  .next-steps h3{font-size:13px;font-weight:600;color:#3C3489;margin-bottom:.5rem}
+  .next-steps p{font-size:13px;color:#534AB7;line-height:1.7}
+  .qualtrics-btn{display:block;background:#4B3EA0;color:#fff;text-decoration:none;border-radius:10px;padding:14px 24px;font-size:15px;font-weight:600;max-width:320px;margin:0 auto;text-align:center}
+  .qualtrics-note{font-size:11px;color:#888;text-align:center;margin-top:.5rem}
+
+  /* Stat row */
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:.75rem}
+  .stat-card{background:#f8f7f4;border-radius:8px;padding:.6rem;text-align:center}
+  .stat-num{font-size:20px;font-weight:700}
+  .stat-lbl{font-size:10px;color:#888;margin-top:1px}
+
+  @media(max-width:380px){
+    .choice-grid.cols4{grid-template-columns:1fr 1fr}
+    .likert-hdr-row,.likert-row{grid-template-columns:1fr repeat(5,34px)}
+    .lnum{height:32px;font-size:12px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>Teamwork Pre-Survey — WSU</h1>
+  <span class="anon">Anonymous</span>
+</div>
+<div class="prog-bar-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+<div class="prog-label" id="progLabel">Getting started</div>
+
+<div id="app"></div>
+
+<div class="nav">
+  <button class="nav-back" id="backBtn" onclick="go(-1)">Back</button>
+  <div class="nav-dots" id="navDots"></div>
+  <button class="nav-next" id="nextBtn" onclick="go(1)">Start</button>
+</div>
+
+<script>
+// ── CONFIGURATION ─────────────────────────────────────────────
+// Replace this URL with your actual Qualtrics anonymous link
+const QUALTRICS_URL = 'https://westernsydney.syd1.qualtrics.com/jfe/form/YOUR_SURVEY_ID';
+// Replace with your subject code or name
+const SUBJECT_NAME = 'International Business Strategy (BUSM3031)';
+// ──────────────────────────────────────────────────────────────
+
+const state = { page: 0, r: {}, revealed: {} };
+
+const COLORS = {
+  purple: { badge:'#EEEDFE', badgeText:'#3C3489', accent:'#4B3EA0', bar:'#4B3EA0', sel:'sel-purple', lnum:'#4B3EA0' },
+  teal:   { badge:'#E1F5EE', badgeText:'#085041', accent:'#1D9E75', bar:'#1D9E75', sel:'sel-teal',   lnum:'#1D9E75' },
+  amber:  { badge:'#FEF3DC', badgeText:'#633806', accent:'#BA7517', bar:'#BA7517', sel:'sel-amber',  lnum:'#BA7517' },
+  blue:   { badge:'#E0EDF9', badgeText:'#0C447C', accent:'#185FA5', bar:'#185FA5', sel:'sel-purple', lnum:'#185FA5' },
+  green:  { badge:'#EAF3DE', badgeText:'#27500A', accent:'#3B6D11', bar:'#3B6D11', sel:'sel-teal',   lnum:'#3B6D11' },
+};
+
+const pages = [
+  { id:'welcome', type:'welcome' },
+  {
+    id:'profile', type:'mixed', color:'purple', label:'Part A', title:'About you',
+    note:'Tap one answer for each question. Takes about 1 minute.',
+    qs:[
+      { id:'year',    text:'What year of study are you in?',                    type:'choice', cols:4, opts:['Year 1','Year 2','Year 3','Year 4'] },
+      { id:'status',  text:'Student status',                                    type:'choice', cols:2, opts:['Domestic','International'] },
+      { id:'work',    text:'Current work status this semester',                 type:'choice', cols:3, opts:['Not working','Part-time','Full-time'] },
+      { id:'subject', text:'This subject is ...',                               type:'choice', cols:2, opts:['An elective I chose','Compulsory for my degree'] },
+      { id:'prior',   text:'How many group projects have you done at uni?',     type:'choice', cols:2, opts:['0','1–2','3–5','6 or more'] },
+    ]
+  },
+  {
+    id:'experience', type:'yn', color:'teal', label:'Part B', title:'Your teamwork story so far',
+    note:'Yes / No / Not sure — tap your honest answer for each.',
+    qs:[
+      { id:'pos',      text:'I have had positive experiences working in student teams before.' },
+      { id:'unequal',  text:'I have experienced unequal contribution from team members.' },
+      { id:'sched',    text:'I have struggled to find common meeting times with my team.' },
+      { id:'roles',    text:'I have had a clearly defined role within a team before.' },
+      { id:'conflict', text:'I feel confident handling conflict constructively in a team.' },
+      { id:'training', text:'I have received formal in-class training on how to work in teams.' },
+    ]
+  },
+  {
+    id:'process', type:'likert', color:'blue', label:'Part C', title:'Your process skills — right now',
+    note:'Before your team project begins: how confident are you in each skill? 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'p1', text:'I know how to set clear goals and expectations at the start of a team project.' },
+      { id:'p2', text:'I am confident negotiating roles and responsibilities in a team.' },
+      { id:'p3', text:'I know how to plan and track a team\'s progress toward deadlines.' },
+      { id:'p4', text:'I know how to address conflict directly and constructively in a team.' },
+      { id:'p5', text:'I am confident giving and receiving constructive feedback in a team.' },
+    ]
+  },
+  {
+    id:'safety', type:'likert', color:'purple', label:'Part D', title:'What you expect from your team',
+    note:'Think about the team you are about to join. 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'s1', text:'Team members will treat mistakes as learning opportunities, not personal failures.' },
+      { id:'s2', text:'It will feel safe to take a risk and express a different opinion in this team.' },
+      { id:'s3', text:'I will feel comfortable asking my team members for help when I need it.' },
+      { id:'s4', text:'No one on this team will deliberately undermine my efforts.' },
+      { id:'s5', text:'My unique skills and contributions will be valued by this team.' },
+    ]
+  },
+  {
+    id:'belonging', type:'likert', color:'teal', label:'Part E', title:'Your sense of connection',
+    note:'How connected do you feel at the start of semester? 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'b1', text:'I feel a sense of connection with other students in this subject.' },
+      { id:'b2', text:'I feel comfortable interacting with students from different cultural backgrounds.' },
+      { id:'b3', text:'I feel like I belong to this class community.' },
+      { id:'b4', text:'I feel connected to other students in this subject.' },
+    ]
+  },
+  {
+    id:'readiness', type:'likert', color:'amber', label:'Part F', title:'Teamwork skills readiness',
+    note:'How prepared do you feel right now? 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'r1', text:'I feel prepared to contribute effectively to a team project right now.' },
+      { id:'r2', text:'I can communicate my ideas clearly and constructively in a team.' },
+      { id:'r3', text:'I am confident that I will honour my commitments to my team.' },
+      { id:'r4', text:'I feel confident working in teams with members from different cultural backgrounds.' },
+    ]
+  },
+  {
+    id:'employ', type:'likert', color:'green', label:'Part G', title:'Teamwork and your career',
+    note:'1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'e1', text:'Teamwork is important for my future career success.' },
+      { id:'e2', text:'I am confident in my ability to work effectively in workplace teams.' },
+      { id:'e3', text:'I could describe my teamwork experience confidently in a job interview.' },
+      { id:'e4', text:'Working in diverse teams at uni will prepare me for the workplace.' },
+    ]
+  },
+  {
+    id:'open', type:'open', color:'amber', label:'Part H', title:'In your own words',
+    note:'Short answers only — a sentence or two is fine. Your honest thoughts matter most.',
+    qs:[
+      { id:'o1', text:'What has been your biggest challenge when working in student teams?' },
+      { id:'o2', text:'What do you think makes a team work well together?' },
+      { id:'o3', text:'How important is teamwork for your future career, and why?' },
+    ]
+  },
+  { id:'end', type:'end' }
+];
+
+const dataPages = pages.filter(p => !['welcome','end'].includes(p.type));
+
+function rec(pid, qid, val) {
+  if (!state.r[pid]) state.r[pid] = {};
+  state.r[pid][qid] = val;
+  render();
+}
+
+function canAdvance() {
+  const p = pages[state.page];
+  if (['welcome','end','open'].includes(p.type)) return true;
+  if (!state.r[p.id]) return false;
+  return p.qs.every(q => state.r[p.id][q.id] !== undefined);
+}
+
+function pct(n, total) { return total === 0 ? 0 : Math.round(n / total * 100); }
+
+function choiceBar(pid, qid, opts, color) {
+  const r = (state.r[pid] || {})[qid];
+  if (!r) return '';
+  const totals = {};
+  opts.forEach(o => totals[o] = o === r ? 1 : 0);
+  const total = 1;
+  let html = `<div class="bar-section"><div class="bar-title">YOUR RESPONSE</div>`;
+  opts.forEach(o => {
+    const p = o === r ? 100 : 0;
+    html += `<div class="bar-row">
+      <div class="bar-lbl">${o}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${color}"></div></div>
+      <div class="bar-pct">${p}%</div>
+    </div>`;
+  });
+  html += `<div style="font-size:11px;color:#888;margin-top:.25rem">Class results visible on projector after instructor reveals</div></div>`;
+  return html;
+}
+
+function renderWelcome() {
+  return `<div class="card" style="text-align:center;padding:1.5rem">
+    <div class="welcome-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#4B3EA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    </div>
+    <div class="welcome-title">Teamwork Pre-Survey</div>
+    <div class="welcome-sub">Not Just Group Work: Teaching Teamwork for Employability</div>
+    <div class="welcome-body">This activity helps us understand where your team starts — your experiences, expectations, and confidence. All responses are completely anonymous.</div>
+    <div class="welcome-chips">
+      <span class="chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        About 12 minutes
+      </span>
+      <span class="chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Anonymous
+      </span>
+      <span class="chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        No wrong answers
+      </span>
+    </div>
+    <div style="font-size:12px;color:#888">${SUBJECT_NAME}</div>
+  </div>`;
+}
+
+function renderMixed(p) {
+  const C = COLORS[p.color];
+  let html = `<div class="card">
+    <span class="badge" style="background:${C.badge};color:${C.badgeText}">${p.label}</span>
+    <div class="section-title">${p.title}</div>
+    <div class="note-box">${p.note}</div>`;
+  p.qs.forEach(q => {
+    const r = (state.r[p.id] || {})[q.id];
+    html += `<div style="margin-bottom:1rem">
+      <div class="q-text">${q.text}</div>
+      <div class="choice-grid cols${q.cols}">`;
+    q.opts.forEach(o => {
+      const sel = r === o;
+      html += `<button class="choice-btn${sel?' '+C.sel:''}" onclick="rec('${p.id}','${q.id}','${o.replace(/'/g,"\\'")}')">
+        <span class="dot"></span><span style="font-size:13px">${o}</span>
+      </button>`;
+    });
+    html += `</div>`;
+    if (r) html += choiceBar(p.id, q.id, q.opts, C.bar);
+    html += `</div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function renderYN(p) {
+  const C = COLORS[p.color];
+  const opts = ['Yes', 'No', 'Not sure'];
+  let html = `<div class="card">
+    <span class="badge" style="background:${C.badge};color:${C.badgeText}">${p.label}</span>
+    <div class="section-title">${p.title}</div>
+    <div class="note-box">${p.note}</div>`;
+  p.qs.forEach(q => {
+    const r = (state.r[p.id] || {})[q.id];
+    html += `<div style="margin-bottom:1rem">
+      <div class="q-text">${q.text}</div>
+      <div class="choice-grid cols3">`;
+    opts.forEach(o => {
+      const sel = r === o;
+      html += `<button class="choice-btn${sel?' '+C.sel:''}" onclick="rec('${p.id}','${q.id}','${o}')">
+        <span class="dot"></span><span style="font-size:13px">${o}</span>
+      </button>`;
+    });
+    html += `</div>`;
+    if (r) html += choiceBar(p.id, q.id, opts, C.bar);
+    html += `</div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function renderLikert(p) {
+  const C = COLORS[p.color];
+  const r = state.r[p.id] || {};
+  const answered = p.qs.filter(q => r[q.id]).length;
+  let html = `<div class="card">
+    <span class="badge" style="background:${C.badge};color:${C.badgeText}">${p.label}</span>
+    <div class="section-title">${p.title}</div>
+    <div class="note-box">${p.note}</div>
+    <div class="likert-hdr-row">
+      <div></div>
+      <div class="lhdr">1<br>Strongly<br>disagree</div>
+      <div class="lhdr">2<br>Disagree</div>
+      <div class="lhdr">3<br>Neutral</div>
+      <div class="lhdr">4<br>Agree</div>
+      <div class="lhdr">5<br>Strongly<br>agree</div>
+    </div>`;
+  p.qs.forEach(q => {
+    const picked = r[q.id];
+    html += `<div class="likert-row">
+      <div class="ltext">${q.text}</div>`;
+    [1,2,3,4,5].forEach(n => {
+      const sel = picked === n;
+      html += `<div class="lnum${sel?' lpicked':''}" style="${sel?`background:${C.lnum};border-color:${C.lnum}`:''}" onclick="rec('${p.id}','${q.id}',${n})">${n}</div>`;
+    });
+    html += `</div>`;
+  });
+  if (answered === p.qs.length) {
+    const avg = (p.qs.reduce((s,q) => s + r[q.id], 0) / p.qs.length).toFixed(1);
+    html += `<div class="stat-row" style="margin-top:1rem">
+      <div class="stat-card"><div class="stat-num" style="color:${C.accent}">${avg}</div><div class="stat-lbl">Your avg</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:${C.accent}">${answered}/${p.qs.length}</div><div class="stat-lbl">Answered</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#ccc">—</div><div class="stat-lbl">Class avg (projector)</div></div>
+    </div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderOpen(p) {
+  const C = COLORS[p.color];
+  let html = `<div class="card">
+    <span class="badge" style="background:${C.badge};color:${C.badgeText}">${p.label}</span>
+    <div class="section-title">${p.title}</div>
+    <div class="note-box">${p.note}</div>`;
+  p.qs.forEach((q, i) => {
+    const val = (state.r[p.id] || {})[q.id] || '';
+    html += `<div class="open-q">
+      <label>${i+1}. ${q.text}</label>
+      <textarea rows="3" placeholder="Type your answer here..." onchange="rec('${p.id}','${q.id}',this.value)">${val}</textarea>
+    </div>`;
+  });
+  html += `<div class="note-box" style="border-left-color:#1D9E75;background:#E1F5EE;color:#085041">Your responses are anonymous. The instructor may share common themes with the class.</div>
+  </div>`;
+  return html;
+}
+
+function renderEnd() {
+  return `<div class="card">
+    <div class="end-wrap">
+      <div class="end-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="end-title">Activity complete — great work!</div>
+      <div class="end-sub">One final step: tap the button below to submit your responses to Qualtrics for the research study. This takes about 3 minutes and uses the same questions — your answers are already fresh in your mind.</div>
+      <div class="next-steps">
+        <h3>What happens next</h3>
+        <p>Today &rarr; MBTI + team formation<br>Weeks 4–13 &rarr; team project with check-ins<br>Week 16 &rarr; post-survey to measure your growth</p>
+      </div>
+      <a href="${QUALTRICS_URL}" target="_blank" class="qualtrics-btn">Submit to Qualtrics &rarr;</a>
+      <div class="qualtrics-note">Opens in your browser. Anonymous — no login required.</div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  const p = pages[state.page];
+  let content = '';
+  if (p.type === 'welcome')       content = renderWelcome();
+  else if (p.type === 'mixed')    content = renderMixed(p);
+  else if (p.type === 'yn')       content = renderYN(p);
+  else if (p.type === 'likert')   content = renderLikert(p);
+  else if (p.type === 'open')     content = renderOpen(p);
+  else if (p.type === 'end')      content = renderEnd();
+  document.getElementById('app').innerHTML = content;
+
+  const total = pages.length - 2;
+  const done  = Math.max(0, state.page - 1);
+  const pct   = state.page === 0 ? 0 : state.page >= pages.length - 1 ? 100 : Math.round(done / total * 100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLabel').textContent =
+    state.page === 0 ? 'Getting started' :
+    state.page >= pages.length - 1 ? 'Complete!' :
+    `Section ${done} of ${total}`;
+
+  const dots = dataPages.map((_, i) => {
+    const idx = i + 1;
+    const active = state.page === idx;
+    const dn = state.page > idx;
+    return `<div class="ndot${dn?' done':active?' active':''}"></div>`;
+  }).join('');
+  document.getElementById('navDots').innerHTML = dots;
+
+  const back = document.getElementById('backBtn');
+  const next = document.getElementById('nextBtn');
+  back.style.display = state.page === 0 ? 'none' : '';
+  const ok = canAdvance();
+  if (p.type === 'end') {
+    next.style.display = 'none';
+  } else {
+    next.style.display = '';
+    next.disabled = !ok;
+    next.textContent = state.page === 0 ? 'Start' :
+      state.page === pages.length - 2 ? 'Finish \u2192' : ok ? 'Next \u2192' : 'Answer all to continue';
+    const C = pages[state.page].color;
+    next.className = 'nav-next' + (C==='teal'?' teal':C==='amber'?' amber':'');
+  }
+}
+
+function go(dir) {
+  if (dir === 1 && !canAdvance()) return;
+  state.page = Math.max(0, Math.min(pages.length - 1, state.page + dir));
+  window.scrollTo(0, 0);
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
