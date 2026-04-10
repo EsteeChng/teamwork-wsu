@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#4B3EA0">
+<title>Teamwork Check-In — WSU</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px;height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f4f8;color:#1a1a1a;min-height:100vh;padding-bottom:80px}
+
+/* ── Top bar ── */
+.topbar{background:#4B3EA0;padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{color:#fff;font-size:14px;font-weight:600}
+.topbar-anon{font-size:11px;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:2px 10px}
+
+/* ── Progress ── */
+.prog-wrap{background:#ddd9f5;height:5px}
+.prog-fill{background:#4B3EA0;height:5px;transition:width .4s ease}
+.prog-text{text-align:center;font-size:11px;color:#888;padding:.3rem;background:#f5f4f8}
+
+/* ── Cards ── */
+.card{background:#fff;border-radius:14px;border:1px solid #e4e1f0;margin:.9rem .9rem 0;padding:1.1rem 1.2rem}
+
+/* ── Badge ── */
+.badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.07em;padding:3px 10px;border-radius:20px;margin-bottom:.65rem;text-transform:uppercase}
+
+/* ── Section heading ── */
+.stitle{font-size:17px;font-weight:700;color:#1a1a1a;margin-bottom:.2rem}
+.ssub{font-size:12px;color:#666;margin-bottom:.9rem;line-height:1.5}
+
+/* ── Note box ── */
+.notebox{background:#f0eff9;border-left:3px solid #4B3EA0;border-radius:0 8px 8px 0;padding:.55rem .9rem;font-size:12px;color:#3C3489;margin-bottom:.9rem;line-height:1.5}
+.notebox.teal{background:#e1f5ee;border-left-color:#1D9E75;color:#085041}
+.notebox.amber{background:#fef3dc;border-left-color:#BA7517;color:#633806}
+.notebox.green{background:#eaf3de;border-left-color:#3B6D11;color:#27500A}
+
+/* ── Question text ── */
+.qtext{font-size:14px;font-weight:500;line-height:1.5;margin-bottom:.65rem;color:#1a1a1a}
+
+/* ── Choice buttons ── */
+.choices{display:grid;gap:7px;margin-bottom:.8rem}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.c4{grid-template-columns:1fr 1fr}
+.cbtn{width:100%;text-align:left;background:#f5f4f8;border:1.5px solid #ddd;border-radius:9px;padding:9px 11px;font-size:13px;color:#1a1a1a;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .12s;font-family:inherit;line-height:1.3}
+.cbtn:active{transform:scale(.97)}
+.cbtn.pu{background:#eeedfe;border-color:#534AB7;color:#3C3489;font-weight:500}
+.cbtn.te{background:#e1f5ee;border-color:#1D9E75;color:#085041;font-weight:500}
+.cbtn.am{background:#fef3dc;border-color:#BA7517;color:#633806;font-weight:500}
+.cbtn.bl{background:#e0edf9;border-color:#185FA5;color:#0C447C;font-weight:500}
+.cbtn.gr{background:#eaf3de;border-color:#3B6D11;color:#27500A;font-weight:500}
+.dot{width:9px;height:9px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background .12s}
+.pu .dot{background:#4B3EA0}
+.te .dot{background:#1D9E75}
+.am .dot{background:#BA7517}
+.bl .dot{background:#185FA5}
+.gr .dot{background:#3B6D11}
+
+/* ── Mini bar (own response) ── */
+.minibar-wrap{margin-top:.5rem;padding:.6rem .75rem;background:#fafafa;border-radius:8px;border:1px solid #eee}
+.minibar-title{font-size:10px;font-weight:600;color:#999;letter-spacing:.05em;margin-bottom:.4rem}
+.mbrow{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.mblbl{font-size:11px;color:#666;width:72px;text-align:right;flex-shrink:0;line-height:1.2}
+.mbtrack{flex:1;height:14px;background:#eee;border-radius:3px;overflow:hidden}
+.mbfill{height:100%;border-radius:3px;transition:width .5s ease}
+.mbpct{font-size:10px;font-weight:600;color:#888;width:28px;flex-shrink:0}
+.projector-note{font-size:10px;color:#aaa;margin-top:.35rem;font-style:italic}
+
+/* ── Likert ── */
+.lk-hdr{display:grid;grid-template-columns:1fr repeat(5,38px);gap:3px;margin-bottom:5px;padding:0 1px}
+.lkhdr{font-size:9px;color:#999;text-align:center;line-height:1.3}
+.lk-row{display:grid;grid-template-columns:1fr repeat(5,38px);gap:3px;align-items:center;padding:5px 1px;border-radius:7px}
+.lk-row:nth-child(odd){background:#fafafa}
+.lktext{font-size:12.5px;color:#1a1a1a;line-height:1.4;padding-right:3px}
+.lknum{height:34px;border:1.5px solid #ddd;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#aaa;cursor:pointer;background:#f5f4f8;transition:all .12s}
+.lknum:active{transform:scale(.92)}
+.lknum.lkp{color:#fff}
+
+/* ── Stat strip ── */
+.statstrip{display:flex;gap:8px;margin-top:.8rem}
+.statcard{flex:1;background:#f5f4f8;border-radius:8px;padding:.55rem;text-align:center}
+.statnum{font-size:20px;font-weight:700}
+.statlbl{font-size:10px;color:#888;margin-top:1px}
+
+/* ── Open text ── */
+.openq{margin-bottom:.9rem}
+.openqlabel{display:block;font-size:13px;font-weight:500;line-height:1.5;margin-bottom:.45rem;color:#1a1a1a}
+.openarea{width:100%;border:1.5px solid #ddd;border-radius:9px;padding:.7rem;font-size:13px;font-family:inherit;color:#1a1a1a;background:#fafafa;resize:none;min-height:72px;line-height:1.5}
+.openarea:focus{outline:none;border-color:#4B3EA0;background:#fff}
+
+/* ── Nav ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;position:fixed;bottom:0;left:0;right:0;background:#f5f4f8;border-top:1px solid #e4e1f0;z-index:50}
+.navback{background:#fff;border:1.5px solid #ddd;border-radius:9px;padding:9px 20px;font-size:14px;color:#444;cursor:pointer;font-family:inherit}
+.navback:active{transform:scale(.97)}
+.navnext{border:none;border-radius:9px;padding:9px 22px;font-size:14px;font-weight:600;cursor:pointer;color:#fff;font-family:inherit;transition:background .15s}
+.navnext:active{transform:scale(.97)}
+.navnext:disabled{background:#ccc!important;cursor:not-allowed}
+.ndots{display:flex;gap:4px;align-items:center}
+.ndot{width:5px;height:5px;border-radius:50%;background:#ccc;transition:all .3s}
+.ndot.act{background:#4B3EA0;width:14px;border-radius:2.5px}
+.ndot.dn{background:#4B3EA0}
+
+/* ── Welcome ── */
+.wicon{width:60px;height:60px;border-radius:50%;background:#eeedfe;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem}
+.wtitle{font-size:21px;font-weight:800;color:#1a1a1a;text-align:center;margin-bottom:.2rem}
+.wsub{font-size:13px;color:#4B3EA0;text-align:center;font-style:italic;margin-bottom:.8rem}
+.wbody{font-size:13px;color:#555;line-height:1.6;text-align:center;margin-bottom:1.1rem}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:.9rem}
+.chip{font-size:11px;background:#eeedfe;color:#3C3489;border-radius:20px;padding:4px 11px;font-weight:500}
+.wunit{font-size:11px;color:#aaa;text-align:center}
+
+/* ── End ── */
+.endwrap{text-align:center;padding:.5rem 0}
+.endicon{width:60px;height:60px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem}
+.endtitle{font-size:19px;font-weight:800;color:#1a1a1a;margin-bottom:.4rem}
+.endsub{font-size:13px;color:#555;line-height:1.6;max-width:300px;margin:0 auto 1.2rem}
+.nextsteps{background:#eeedfe;border-radius:12px;padding:.9rem 1.1rem;text-align:left;margin-bottom:1.2rem}
+.nextsteps h3{font-size:12px;font-weight:700;color:#3C3489;margin-bottom:.4rem}
+.nextsteps p{font-size:12px;color:#534AB7;line-height:1.7}
+.qbtn{display:block;background:#4B3EA0;color:#fff;text-decoration:none;border-radius:11px;padding:14px 24px;font-size:15px;font-weight:700;text-align:center;margin-bottom:.5rem}
+.qbtn:active{opacity:.85}
+.qnote{font-size:11px;color:#aaa;text-align:center}
+
+@media(max-width:360px){
+  .lk-hdr,.lk-row{grid-template-columns:1fr repeat(5,31px)}
+  .lknum{height:30px;font-size:11px}
+  .c3{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-title">Teamwork Check-In</span>
+  <span class="topbar-anon">Anonymous</span>
+</div>
+<div class="prog-wrap"><div class="prog-fill" id="pf" style="width:0%"></div></div>
+<div class="prog-text" id="pt">Getting started</div>
+
+<div id="app"></div>
+
+<div class="nav">
+  <button class="navback" id="backBtn" onclick="go(-1)" style="display:none">Back</button>
+  <div class="ndots" id="ndots"></div>
+  <button class="navnext" id="nextBtn" onclick="go(1)" style="background:#4B3EA0">Start</button>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// CONFIGURATION — research team sets this once before sharing
+// ─────────────────────────────────────────────────────────────
+const CONFIG = {
+  QUALTRICS: 'https://westernsydney.syd1.qualtrics.com/jfe/form/YOUR_SURVEY_ID',
+  UNIT: 'Not Just Group Work: Teaching Teamwork for Employability'
+};
+// ─────────────────────────────────────────────────────────────
+
+const S = { page: 0, r: {} };
+
+const C = {
+  pu: { cls:'pu', acc:'#4B3EA0', bg:'#eeedfe', tx:'#3C3489', bar:'#4B3EA0', lk:'#4B3EA0' },
+  te: { cls:'te', acc:'#1D9E75', bg:'#e1f5ee', tx:'#085041', bar:'#1D9E75', lk:'#1D9E75' },
+  am: { cls:'am', acc:'#BA7517', bg:'#fef3dc', tx:'#633806', bar:'#BA7517', lk:'#BA7517' },
+  bl: { cls:'bl', acc:'#185FA5', bg:'#e0edf9', tx:'#0C447C', bar:'#185FA5', lk:'#185FA5' },
+  gr: { cls:'gr', acc:'#3B6D11', bg:'#eaf3de', tx:'#27500A', bar:'#3B6D11', lk:'#3B6D11' },
+};
+
+const pages = [
+  { id:'welcome', type:'welcome' },
+  {
+    id:'profile', type:'choices', col:C.pu, label:'Part A', title:'About you',
+    note:'Tap one answer per question. Quick!',
+    qs:[
+      { id:'year',    text:'Year of study?',                              cols:'c4', opts:['Year 1','Year 2','Year 3','Year 4'] },
+      { id:'status',  text:'Student status',                              cols:'c2', opts:['Domestic','International'] },
+      { id:'work',    text:'Work status this semester',                   cols:'c3', opts:['Not working','Part-time','Full-time'] },
+      { id:'subject', text:'This subject is...',                          cols:'c2', opts:['An elective I chose','Compulsory for my degree'] },
+      { id:'prior',   text:'Group projects done at uni so far?',          cols:'c4', opts:['0','1–2','3–5','6 or more'] },
+    ]
+  },
+  {
+    id:'exp', type:'yn', col:C.te, label:'Part B', title:'Your teamwork story so far',
+    note:'Yes / No / Not sure — be honest, there are no right answers.',
+    qs:[
+      { id:'b1', text:'I have had positive experiences working in student teams before.' },
+      { id:'b2', text:'I have experienced unequal contribution from team members.' },
+      { id:'b3', text:'I have struggled to find common meeting times with my team.' },
+      { id:'b4', text:'I have had a clearly defined role within a team before.' },
+      { id:'b5', text:'I feel confident handling conflict constructively in a team.' },
+      { id:'b6', text:'I have had formal in-class training on how to work in teams.' },
+    ]
+  },
+  {
+    id:'process', type:'likert', col:C.bl, label:'Part C', title:'Your process skills right now',
+    note:'Before this project begins — how confident are you? 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'p1', text:'I know how to set clear goals with a team at the start of a project.' },
+      { id:'p2', text:'I am confident negotiating roles and responsibilities in a team.' },
+      { id:'p3', text:'I know how to plan and track a team\'s progress toward deadlines.' },
+      { id:'p4', text:'I know how to address conflict directly and constructively.' },
+      { id:'p5', text:'I am confident giving and receiving constructive feedback in a team.' },
+    ]
+  },
+  {
+    id:'safety', type:'likert', col:C.pu, label:'Part D', title:'What you expect from your team',
+    note:'Think about the team you are about to join. 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'s1', text:'Team members will treat mistakes as learning opportunities, not failures.' },
+      { id:'s2', text:'It will feel safe to express a different opinion in this team.' },
+      { id:'s3', text:'I will feel comfortable asking my team members for help.' },
+      { id:'s4', text:'No one on this team will deliberately undermine my efforts.' },
+      { id:'s5', text:'My unique skills and contributions will be valued by this team.' },
+    ]
+  },
+  {
+    id:'belong', type:'likert', col:C.te, label:'Part E', title:'Your sense of connection',
+    note:'How connected do you feel right now, at the start of semester? 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'e1', text:'I feel a sense of connection with other students in this subject.' },
+      { id:'e2', text:'I feel comfortable interacting with students from different cultural backgrounds.' },
+      { id:'e3', text:'I feel like I belong to this class community.' },
+      { id:'e4', text:'I feel connected to other students in this subject.' },
+    ]
+  },
+  {
+    id:'ready', type:'likert', col:C.am, label:'Part F', title:'Teamwork readiness',
+    note:'How prepared do you feel right now? 1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'r1', text:'I feel prepared to contribute effectively to a team project right now.' },
+      { id:'r2', text:'I can communicate my ideas clearly and constructively in a team.' },
+      { id:'r3', text:'I am confident that I will honour my commitments to my team.' },
+      { id:'r4', text:'I feel confident working in teams with members from different cultural backgrounds.' },
+    ]
+  },
+  {
+    id:'employ', type:'likert', col:C.gr, label:'Part G', title:'Teamwork and your career',
+    note:'1 = Strongly disagree → 5 = Strongly agree',
+    qs:[
+      { id:'g1', text:'Teamwork is important for my future career success.' },
+      { id:'g2', text:'I am confident in my ability to work effectively in workplace teams.' },
+      { id:'g3', text:'I could describe my teamwork experience confidently in a job interview.' },
+      { id:'g4', text:'Working in diverse teams at uni will prepare me for the workplace.' },
+    ]
+  },
+  {
+    id:'open', type:'open', col:C.am, label:'Part H', title:'In your own words',
+    note:'A sentence or two is fine. No right answers.',
+    qs:[
+      { id:'o1', text:'What has been your biggest challenge when working in student teams?' },
+      { id:'o2', text:'What do you think makes a team work well together?' },
+      { id:'o3', text:'How important is teamwork for your future career, and why?' },
+    ]
+  },
+  { id:'end', type:'end' }
+];
+
+const DATA_PAGES = pages.filter(p => !['welcome','end'].includes(p.type));
+
+function rec(pid, qid, val) {
+  if (!S.r[pid]) S.r[pid] = {};
+  S.r[pid][qid] = val;
+  render();
+}
+
+function can() {
+  const p = pages[S.page];
+  if (['welcome','end','open'].includes(p.type)) return true;
+  const r = S.r[p.id] || {};
+  return p.qs.every(q => r[q.id] !== undefined);
+}
+
+function minibar(pid, qid, opts, col, label='Your response') {
+  const v = (S.r[pid]||{})[qid];
+  if (!v) return '';
+  let rows = opts.map(o => {
+    const p = o===v ? 100 : 0;
+    return `<div class="mbrow">
+      <div class="mblbl">${o}</div>
+      <div class="mbtrack"><div class="mbfill" style="width:${p}%;background:${col.bar}"></div></div>
+      <div class="mbpct">${p}%</div>
+    </div>`;
+  }).join('');
+  return `<div class="minibar-wrap">
+    <div class="minibar-title">${label.toUpperCase()}</div>
+    ${rows}
+    <div class="projector-note">Class results show on the projector when the instructor reveals them</div>
+  </div>`;
+}
+
+function renderWelcome() {
+  return `<div class="card">
+    <div class="wicon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4B3EA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    </div>
+    <div class="wtitle">Teamwork Check-In</div>
+    <div class="wsub">${CONFIG.UNIT}</div>
+    <div class="wbody">A quick anonymous activity before we form teams today. Tap through the sections on your phone — your instructor has the same screen on the projector.</div>
+    <div class="chips">
+      <span class="chip">About 12 minutes</span>
+      <span class="chip">Anonymous</span>
+      <span class="chip">No wrong answers</span>
+      <span class="chip">Not graded</span>
+    </div>
+    <div class="wunit">Western Sydney University</div>
+  </div>`;
+}
+
+function renderChoices(p) {
+  const r = S.r[p.id]||{};
+  let html = `<div class="card">
+    <span class="badge" style="background:${p.col.bg};color:${p.col.tx}">${p.label}</span>
+    <div class="stitle">${p.title}</div>
+    <div class="notebox">${p.note}</div>`;
+  p.qs.forEach(q => {
+    const picked = r[q.id];
+    html += `<div style="margin-bottom:.85rem"><div class="qtext">${q.text}</div>
+      <div class="choices ${q.cols}">`;
+    q.opts.forEach(o => {
+      const sel = picked===o;
+      html += `<button class="cbtn${sel?' '+p.col.cls:''}" onclick="rec('${p.id}','${q.id}','${o.replace(/'/g,"\\'")}')">
+        <span class="dot"></span><span>${o}</span></button>`;
+    });
+    html += `</div>`;
+    if (picked) html += minibar(p.id, q.id, q.opts, p.col);
+    html += `</div>`;
+  });
+  return html + `</div>`;
+}
+
+function renderYN(p) {
+  const opts = ['Yes','No','Not sure'];
+  const r = S.r[p.id]||{};
+  let html = `<div class="card">
+    <span class="badge" style="background:${p.col.bg};color:${p.col.tx}">${p.label}</span>
+    <div class="stitle">${p.title}</div>
+    <div class="notebox teal">${p.note}</div>`;
+  p.qs.forEach(q => {
+    const picked = r[q.id];
+    html += `<div style="margin-bottom:.85rem"><div class="qtext">${q.text}</div>
+      <div class="choices c3">`;
+    opts.forEach(o => {
+      const sel = picked===o;
+      html += `<button class="cbtn${sel?' '+p.col.cls:''}" onclick="rec('${p.id}','${q.id}','${o}')">
+        <span class="dot"></span><span>${o}</span></button>`;
+    });
+    html += `</div>`;
+    if (picked) html += minibar(p.id, q.id, opts, p.col);
+    html += `</div>`;
+  });
+  return html + `</div>`;
+}
+
+function renderLikert(p) {
+  const r = S.r[p.id]||{};
+  const answered = p.qs.filter(q=>r[q.id]).length;
+  let html = `<div class="card">
+    <span class="badge" style="background:${p.col.bg};color:${p.col.tx}">${p.label}</span>
+    <div class="stitle">${p.title}</div>
+    <div class="notebox" style="background:${p.col.bg};border-left-color:${p.col.acc};color:${p.col.tx}">${p.note}</div>
+    <div class="lk-hdr">
+      <div></div>
+      <div class="lkhdr">1<br>Strongly<br>disagree</div>
+      <div class="lkhdr">2<br>Disagree</div>
+      <div class="lkhdr">3<br>Neutral</div>
+      <div class="lkhdr">4<br>Agree</div>
+      <div class="lkhdr">5<br>Strongly<br>agree</div>
+    </div>`;
+  p.qs.forEach(q => {
+    const v = r[q.id];
+    html += `<div class="lk-row"><div class="lktext">${q.text}</div>`;
+    [1,2,3,4,5].forEach(n => {
+      const sel = v===n;
+      html += `<div class="lknum${sel?' lkp':''}" style="${sel?`background:${p.col.lk};border-color:${p.col.lk}`:''}" onclick="rec('${p.id}','${q.id}',${n})">${n}</div>`;
+    });
+    html += `</div>`;
+  });
+  if (answered===p.qs.length) {
+    const avg = (p.qs.reduce((s,q)=>s+r[q.id],0)/p.qs.length).toFixed(1);
+    html += `<div class="statstrip">
+      <div class="statcard"><div class="statnum" style="color:${p.col.acc}">${avg}</div><div class="statlbl">Your avg</div></div>
+      <div class="statcard"><div class="statnum" style="color:${p.col.acc}">${answered}/${p.qs.length}</div><div class="statlbl">Complete</div></div>
+      <div class="statcard"><div class="statnum" style="color:#ccc">—</div><div class="statlbl">Class avg on projector</div></div>
+    </div>`;
+  }
+  return html + `</div>`;
+}
+
+function renderOpen(p) {
+  const r = S.r[p.id]||{};
+  let html = `<div class="card">
+    <span class="badge" style="background:${p.col.bg};color:${p.col.tx}">${p.label}</span>
+    <div class="stitle">${p.title}</div>
+    <div class="notebox amber">${p.note}</div>`;
+  p.qs.forEach((q,i) => {
+    const v = r[q.id]||'';
+    html += `<div class="openq">
+      <label class="openqlabel">${i+1}. ${q.text}</label>
+      <textarea class="openarea" rows="3" placeholder="Type here..." onchange="rec('${p.id}','${q.id}',this.value)">${v}</textarea>
+    </div>`;
+  });
+  html += `<div class="notebox green">Your words are anonymous. Your instructor may share common themes with the class.</div>`;
+  return html + `</div>`;
+}
+
+function renderEnd() {
+  return `<div class="card">
+    <div class="endwrap">
+      <div class="endicon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="endtitle">Activity done — thank you!</div>
+      <div class="endsub">One final step: tap the button below to formally submit your responses. It uses the same questions, takes 3 minutes, and is completely anonymous.</div>
+      <div class="nextsteps">
+        <h3>What happens next today</h3>
+        <p>MBTI personality activity &rarr; team formation &rarr; team charter<br><br>Week 16: same survey again to measure your growth</p>
+      </div>
+      <a href="${CONFIG.QUALTRICS}" target="_blank" class="qbtn">Submit responses to Qualtrics &rarr;</a>
+      <div class="qnote">Opens in your browser &nbsp;&middot;&nbsp; No login &nbsp;&middot;&nbsp; Anonymous</div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  const p = pages[S.page];
+  let html = '';
+  if      (p.type==='welcome') html = renderWelcome();
+  else if (p.type==='choices') html = renderChoices(p);
+  else if (p.type==='yn')      html = renderYN(p);
+  else if (p.type==='likert')  html = renderLikert(p);
+  else if (p.type==='open')    html = renderOpen(p);
+  else if (p.type==='end')     html = renderEnd();
+  document.getElementById('app').innerHTML = html;
+
+  const total = DATA_PAGES.length;
+  const done  = Math.max(0, S.page-1);
+  const pct   = S.page===0 ? 0 : S.page>=pages.length-1 ? 100 : Math.round(done/total*100);
+  document.getElementById('pf').style.width = pct+'%';
+  document.getElementById('pt').textContent =
+    S.page===0 ? 'Getting started' :
+    S.page>=pages.length-1 ? 'Complete — thank you!' :
+    `Section ${done} of ${total}`;
+
+  document.getElementById('ndots').innerHTML = DATA_PAGES.map((_,i)=>{
+    const idx=i+1, act=S.page===idx, dn=S.page>idx;
+    return `<div class="ndot${dn?' dn':act?' act':''}"></div>`;
+  }).join('');
+
+  const back = document.getElementById('backBtn');
+  const next = document.getElementById('nextBtn');
+  back.style.display = S.page===0 ? 'none' : '';
+  if (p.type==='end') {
+    next.style.display='none';
+  } else {
+    next.style.display='';
+    const ok=can();
+    next.disabled=!ok;
+    next.style.background = ok ? (p.col ? p.col.acc : '#4B3EA0') : '#ccc';
+    next.textContent =
+      S.page===0 ? 'Start' :
+      S.page===pages.length-2 ? 'Finish \u2192' :
+      ok ? 'Next \u2192' : 'Answer all to continue';
+  }
+}
+
+function go(dir) {
+  if (dir===1 && !can()) return;
+  S.page = Math.max(0, Math.min(pages.length-1, S.page+dir));
+  window.scrollTo(0,0);
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
