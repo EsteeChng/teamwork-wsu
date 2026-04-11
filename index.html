@@ -7,39 +7,29 @@
 <title>Teamwork Check-In — WSU</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{font-size:16px;height:100%}
+html{font-size:16px}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f4f8;color:#1a1a1a;min-height:100vh;padding-bottom:80px}
 
-/* ── Top bar ── */
-.topbar{background:#4B3EA0;padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
-.topbar-title{color:#fff;font-size:14px;font-weight:600}
-.topbar-anon{font-size:11px;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:2px 10px}
+.topbar{background:#4B3EA0;padding:.65rem 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;flex-direction:column;gap:1px}
+.topbar-title{color:#fff;font-size:13px;font-weight:700;line-height:1.2}
+.topbar-meta{color:rgba(255,255,255,.75);font-size:10px;line-height:1.2}
+.topbar-anon{font-size:10px;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:2px 9px;flex-shrink:0}
 
-/* ── Progress ── */
 .prog-wrap{background:#ddd9f5;height:5px}
 .prog-fill{background:#4B3EA0;height:5px;transition:width .4s ease}
 .prog-text{text-align:center;font-size:11px;color:#888;padding:.3rem;background:#f5f4f8}
 
-/* ── Cards ── */
-.card{background:#fff;border-radius:14px;border:1px solid #e4e1f0;margin:.9rem .9rem 0;padding:1.1rem 1.2rem}
-
-/* ── Badge ── */
+.card{background:#fff;border-radius:14px;border:1px solid #e4e1f0;margin:.85rem .85rem 0;padding:1.1rem 1.15rem}
 .badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.07em;padding:3px 10px;border-radius:20px;margin-bottom:.65rem;text-transform:uppercase}
-
-/* ── Section heading ── */
 .stitle{font-size:17px;font-weight:700;color:#1a1a1a;margin-bottom:.2rem}
 .ssub{font-size:12px;color:#666;margin-bottom:.9rem;line-height:1.5}
-
-/* ── Note box ── */
 .notebox{background:#f0eff9;border-left:3px solid #4B3EA0;border-radius:0 8px 8px 0;padding:.55rem .9rem;font-size:12px;color:#3C3489;margin-bottom:.9rem;line-height:1.5}
 .notebox.teal{background:#e1f5ee;border-left-color:#1D9E75;color:#085041}
 .notebox.amber{background:#fef3dc;border-left-color:#BA7517;color:#633806}
 .notebox.green{background:#eaf3de;border-left-color:#3B6D11;color:#27500A}
 
-/* ── Question text ── */
 .qtext{font-size:14px;font-weight:500;line-height:1.5;margin-bottom:.65rem;color:#1a1a1a}
-
-/* ── Choice buttons ── */
 .choices{display:grid;gap:7px;margin-bottom:.8rem}
 .c2{grid-template-columns:1fr 1fr}
 .c3{grid-template-columns:1fr 1fr 1fr}
@@ -52,23 +42,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .cbtn.bl{background:#e0edf9;border-color:#185FA5;color:#0C447C;font-weight:500}
 .cbtn.gr{background:#eaf3de;border-color:#3B6D11;color:#27500A;font-weight:500}
 .dot{width:9px;height:9px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background .12s}
-.pu .dot{background:#4B3EA0}
-.te .dot{background:#1D9E75}
-.am .dot{background:#BA7517}
-.bl .dot{background:#185FA5}
-.gr .dot{background:#3B6D11}
+.pu .dot{background:#4B3EA0}.te .dot{background:#1D9E75}
+.am .dot{background:#BA7517}.bl .dot{background:#185FA5}.gr .dot{background:#3B6D11}
 
-/* ── Mini bar (own response) ── */
 .minibar-wrap{margin-top:.5rem;padding:.6rem .75rem;background:#fafafa;border-radius:8px;border:1px solid #eee}
 .minibar-title{font-size:10px;font-weight:600;color:#999;letter-spacing:.05em;margin-bottom:.4rem}
 .mbrow{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.mblbl{font-size:11px;color:#666;width:72px;text-align:right;flex-shrink:0;line-height:1.2}
+.mblbl{font-size:11px;color:#666;width:80px;text-align:right;flex-shrink:0;line-height:1.2}
 .mbtrack{flex:1;height:14px;background:#eee;border-radius:3px;overflow:hidden}
 .mbfill{height:100%;border-radius:3px;transition:width .5s ease}
 .mbpct{font-size:10px;font-weight:600;color:#888;width:28px;flex-shrink:0}
-.projector-note{font-size:10px;color:#aaa;margin-top:.35rem;font-style:italic}
+.projnote{font-size:10px;color:#aaa;margin-top:.35rem;font-style:italic}
 
-/* ── Likert ── */
 .lk-hdr{display:grid;grid-template-columns:1fr repeat(5,38px);gap:3px;margin-bottom:5px;padding:0 1px}
 .lkhdr{font-size:9px;color:#999;text-align:center;line-height:1.3}
 .lk-row{display:grid;grid-template-columns:1fr repeat(5,38px);gap:3px;align-items:center;padding:5px 1px;border-radius:7px}
@@ -78,19 +63,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .lknum:active{transform:scale(.92)}
 .lknum.lkp{color:#fff}
 
-/* ── Stat strip ── */
 .statstrip{display:flex;gap:8px;margin-top:.8rem}
 .statcard{flex:1;background:#f5f4f8;border-radius:8px;padding:.55rem;text-align:center}
 .statnum{font-size:20px;font-weight:700}
 .statlbl{font-size:10px;color:#888;margin-top:1px}
 
-/* ── Open text ── */
 .openq{margin-bottom:.9rem}
 .openqlabel{display:block;font-size:13px;font-weight:500;line-height:1.5;margin-bottom:.45rem;color:#1a1a1a}
 .openarea{width:100%;border:1.5px solid #ddd;border-radius:9px;padding:.7rem;font-size:13px;font-family:inherit;color:#1a1a1a;background:#fafafa;resize:none;min-height:72px;line-height:1.5}
 .openarea:focus{outline:none;border-color:#4B3EA0;background:#fff}
 
-/* ── Nav ── */
 .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;position:fixed;bottom:0;left:0;right:0;background:#f5f4f8;border-top:1px solid #e4e1f0;z-index:50}
 .navback{background:#fff;border:1.5px solid #ddd;border-radius:9px;padding:9px 20px;font-size:14px;color:#444;cursor:pointer;font-family:inherit}
 .navback:active{transform:scale(.97)}
@@ -102,18 +84,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .ndot.act{background:#4B3EA0;width:14px;border-radius:2.5px}
 .ndot.dn{background:#4B3EA0}
 
-/* ── Welcome ── */
-.wicon{width:60px;height:60px;border-radius:50%;background:#eeedfe;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem}
-.wtitle{font-size:21px;font-weight:800;color:#1a1a1a;text-align:center;margin-bottom:.2rem}
-.wsub{font-size:13px;color:#4B3EA0;text-align:center;font-style:italic;margin-bottom:.8rem}
-.wbody{font-size:13px;color:#555;line-height:1.6;text-align:center;margin-bottom:1.1rem}
-.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:.9rem}
+.wicon{width:58px;height:58px;border-radius:50%;background:#eeedfe;display:flex;align-items:center;justify-content:center;margin:0 auto .85rem}
+.wtitle{font-size:20px;font-weight:800;color:#1a1a1a;text-align:center;margin-bottom:.2rem}
+.wsub{font-size:13px;color:#4B3EA0;text-align:center;font-style:italic;margin-bottom:.25rem}
+.wmeta{font-size:11px;color:#888;text-align:center;margin-bottom:.85rem}
+.wbody{font-size:13px;color:#555;line-height:1.6;text-align:center;margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:.85rem}
 .chip{font-size:11px;background:#eeedfe;color:#3C3489;border-radius:20px;padding:4px 11px;font-weight:500}
-.wunit{font-size:11px;color:#aaa;text-align:center}
 
-/* ── End ── */
+.class-tag{display:inline-flex;align-items:center;gap:5px;background:#f5f4f8;border:1px solid #e4e1f0;border-radius:8px;padding:5px 10px;font-size:11px;color:#666;margin-bottom:.85rem}
+.class-tag strong{color:#4B3EA0;font-weight:600}
+
 .endwrap{text-align:center;padding:.5rem 0}
-.endicon{width:60px;height:60px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem}
+.endicon{width:58px;height:58px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem}
 .endtitle{font-size:19px;font-weight:800;color:#1a1a1a;margin-bottom:.4rem}
 .endsub{font-size:13px;color:#555;line-height:1.6;max-width:300px;margin:0 auto 1.2rem}
 .nextsteps{background:#eeedfe;border-radius:12px;padding:.9rem 1.1rem;text-align:left;margin-bottom:1.2rem}
@@ -122,6 +105,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .qbtn{display:block;background:#4B3EA0;color:#fff;text-decoration:none;border-radius:11px;padding:14px 24px;font-size:15px;font-weight:700;text-align:center;margin-bottom:.5rem}
 .qbtn:active{opacity:.85}
 .qnote{font-size:11px;color:#aaa;text-align:center}
+
+/* Error screen */
+.err-card{background:#fff;border-radius:14px;border:2px solid #f09595;margin:1.5rem .85rem;padding:1.5rem;text-align:center}
+.err-title{font-size:16px;font-weight:700;color:#A32D2D;margin-bottom:.5rem}
+.err-body{font-size:13px;color:#666;line-height:1.6;margin-bottom:1rem}
+.err-url{font-size:11px;font-family:monospace;background:#f5f4f8;padding:.4rem .6rem;border-radius:6px;color:#444;word-break:break-all}
 
 @media(max-width:360px){
   .lk-hdr,.lk-row{grid-template-columns:1fr repeat(5,31px)}
@@ -133,7 +122,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <body>
 
 <div class="topbar">
-  <span class="topbar-title">Teamwork Check-In</span>
+  <div class="topbar-left">
+    <span class="topbar-title" id="tb-title">Teamwork Check-In</span>
+    <span class="topbar-meta" id="tb-meta">WSU — Loading...</span>
+  </div>
   <span class="topbar-anon">Anonymous</span>
 </div>
 <div class="prog-wrap"><div class="prog-fill" id="pf" style="width:0%"></div></div>
@@ -149,17 +141,72 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <script>
 // ─────────────────────────────────────────────────────────────
-// CONFIGURATION — research team sets this once before sharing
-// ─────────────────────────────────────────────────────────────
-const CONFIG = {
-  QUALTRICS: 'https://westernsydney.syd1.qualtrics.com/jfe/form/YOUR_SURVEY_ID',
-  UNIT: 'Not Just Group Work: Teaching Teamwork for Employability'
-};
+//  READ URL PARAMETERS
+//  Every class gets a unique URL. Parameters drive all config.
+//
+//  Parameters:
+//    unit      Subject code        e.g. BUSM3031
+//    group     Tutorial group      e.g. TutA
+//    sem       Semester            e.g. S1-2026
+//    instructor Instructor surname  e.g. Smith
+//    condition Study or Control    e.g. Study
+//    q         Qualtrics survey ID e.g. SV_abc123xyz
+//
+//  Example URL:
+//  https://your-username.github.io/teamwork-wsu
+//    ?unit=BUSM3031&group=TutA&sem=S1-2026
+//    &instructor=Smith&condition=Study&q=SV_abc123xyz
+//
+//  FALLBACK (no parameters = test/demo mode):
+//  Shows a friendly notice but still runs the full activity.
 // ─────────────────────────────────────────────────────────────
 
+const params = new URLSearchParams(window.location.search);
+
+const CFG = {
+  unit:        params.get('unit')        || '',
+  group:       params.get('group')       || '',
+  sem:         params.get('sem')         || '',
+  instructor:  params.get('instructor')  || '',
+  condition:   params.get('condition')   || '',
+  qid:         params.get('q')          || '',
+};
+
+// Build Qualtrics URL — appends class metadata as embedded data
+// so every submission is tagged with subject, group, semester etc.
+function buildQualtricsURL() {
+  if (!CFG.qid) return '#missing-qualtrics-id';
+  const base = `https://westernsydney.syd1.qualtrics.com/jfe/form/${CFG.qid}`;
+  const meta = new URLSearchParams({
+    unit:       CFG.unit,
+    group:      CFG.group,
+    sem:        CFG.sem,
+    instructor: CFG.instructor,
+    condition:  CFG.condition,
+  });
+  return `${base}?${meta.toString()}`;
+}
+
+// Display labels
+const UNIT_NAMES = {
+  'BUSM1015': 'Business in Practice (BUSM1015)',
+  'BUSM3031': 'International Business Strategy (BUSM3031)',
+  'BUSM3030': 'Capstone Project (BUSM3030)',
+};
+const unitLabel = UNIT_NAMES[CFG.unit] || CFG.unit || 'Teamwork for Employability';
+const groupLabel = CFG.group ? `Group ${CFG.group}` : '';
+const metaLabel = [unitLabel, groupLabel, CFG.sem].filter(Boolean).join('  ·  ');
+
+// Update top bar
+document.getElementById('tb-title').textContent = CFG.unit ? `${CFG.unit} — Teamwork Check-In` : 'Teamwork Check-In';
+document.getElementById('tb-meta').textContent = metaLabel || 'WSU';
+
+// ─────────────────────────────────────────────────────────────
+//  APP STATE & COLOUR PALETTE
+// ─────────────────────────────────────────────────────────────
 const S = { page: 0, r: {} };
 
-const C = {
+const COL = {
   pu: { cls:'pu', acc:'#4B3EA0', bg:'#eeedfe', tx:'#3C3489', bar:'#4B3EA0', lk:'#4B3EA0' },
   te: { cls:'te', acc:'#1D9E75', bg:'#e1f5ee', tx:'#085041', bar:'#1D9E75', lk:'#1D9E75' },
   am: { cls:'am', acc:'#BA7517', bg:'#fef3dc', tx:'#633806', bar:'#BA7517', lk:'#BA7517' },
@@ -167,22 +214,25 @@ const C = {
   gr: { cls:'gr', acc:'#3B6D11', bg:'#eaf3de', tx:'#27500A', bar:'#3B6D11', lk:'#3B6D11' },
 };
 
+// ─────────────────────────────────────────────────────────────
+//  SURVEY PAGES
+// ─────────────────────────────────────────────────────────────
 const pages = [
   { id:'welcome', type:'welcome' },
   {
-    id:'profile', type:'choices', col:C.pu, label:'Part A', title:'About you',
-    note:'Tap one answer per question. Quick!',
+    id:'profile', type:'choices', col:COL.pu, label:'Part A', title:'About you',
+    note:'Tap one answer per question.',
     qs:[
-      { id:'year',    text:'Year of study?',                              cols:'c4', opts:['Year 1','Year 2','Year 3','Year 4'] },
-      { id:'status',  text:'Student status',                              cols:'c2', opts:['Domestic','International'] },
-      { id:'work',    text:'Work status this semester',                   cols:'c3', opts:['Not working','Part-time','Full-time'] },
-      { id:'subject', text:'This subject is...',                          cols:'c2', opts:['An elective I chose','Compulsory for my degree'] },
-      { id:'prior',   text:'Group projects done at uni so far?',          cols:'c4', opts:['0','1–2','3–5','6 or more'] },
+      { id:'year',    text:'What year of study are you in?',             cols:'c4', opts:['Year 1','Year 2','Year 3','Year 4'] },
+      { id:'status',  text:'Student status',                             cols:'c2', opts:['Domestic','International'] },
+      { id:'work',    text:'Work status this semester',                  cols:'c3', opts:['Not working','Part-time','Full-time'] },
+      { id:'subject', text:'This subject is...',                         cols:'c2', opts:['An elective I chose','Compulsory for my degree'] },
+      { id:'prior',   text:'Group projects completed at uni so far?',    cols:'c4', opts:['0','1–2','3–5','6 or more'] },
     ]
   },
   {
-    id:'exp', type:'yn', col:C.te, label:'Part B', title:'Your teamwork story so far',
-    note:'Yes / No / Not sure — be honest, there are no right answers.',
+    id:'exp', type:'yn', col:COL.te, label:'Part B', title:'Your teamwork story so far',
+    note:'Yes / No / Not sure — honest answers only, no right or wrong.',
     qs:[
       { id:'b1', text:'I have had positive experiences working in student teams before.' },
       { id:'b2', text:'I have experienced unequal contribution from team members.' },
@@ -193,29 +243,29 @@ const pages = [
     ]
   },
   {
-    id:'process', type:'likert', col:C.bl, label:'Part C', title:'Your process skills right now',
-    note:'Before this project begins — how confident are you? 1 = Strongly disagree → 5 = Strongly agree',
+    id:'process', type:'likert', col:COL.bl, label:'Part C', title:'Your process skills right now',
+    note:'Before this project begins — how confident are you in each skill? 1 = Strongly disagree → 5 = Strongly agree',
     qs:[
-      { id:'p1', text:'I know how to set clear goals with a team at the start of a project.' },
-      { id:'p2', text:'I am confident negotiating roles and responsibilities in a team.' },
+      { id:'p1', text:'I know how to set clear goals and expectations at the start of a team project.' },
+      { id:'p2', text:'I am confident negotiating roles and responsibilities within a team.' },
       { id:'p3', text:'I know how to plan and track a team\'s progress toward deadlines.' },
-      { id:'p4', text:'I know how to address conflict directly and constructively.' },
-      { id:'p5', text:'I am confident giving and receiving constructive feedback in a team.' },
+      { id:'p4', text:'I know how to address conflict directly and constructively in a team.' },
+      { id:'p5', text:'I am confident giving and receiving constructive feedback within a team.' },
     ]
   },
   {
-    id:'safety', type:'likert', col:C.pu, label:'Part D', title:'What you expect from your team',
+    id:'safety', type:'likert', col:COL.pu, label:'Part D', title:'What you expect from your team',
     note:'Think about the team you are about to join. 1 = Strongly disagree → 5 = Strongly agree',
     qs:[
-      { id:'s1', text:'Team members will treat mistakes as learning opportunities, not failures.' },
-      { id:'s2', text:'It will feel safe to express a different opinion in this team.' },
-      { id:'s3', text:'I will feel comfortable asking my team members for help.' },
+      { id:'s1', text:'Team members will treat mistakes as learning opportunities, not personal failures.' },
+      { id:'s2', text:'It will feel safe to take a risk and express a different opinion in this team.' },
+      { id:'s3', text:'I will feel comfortable asking my team members for help when I need it.' },
       { id:'s4', text:'No one on this team will deliberately undermine my efforts.' },
       { id:'s5', text:'My unique skills and contributions will be valued by this team.' },
     ]
   },
   {
-    id:'belong', type:'likert', col:C.te, label:'Part E', title:'Your sense of connection',
+    id:'belong', type:'likert', col:COL.te, label:'Part E', title:'Your sense of connection',
     note:'How connected do you feel right now, at the start of semester? 1 = Strongly disagree → 5 = Strongly agree',
     qs:[
       { id:'e1', text:'I feel a sense of connection with other students in this subject.' },
@@ -225,28 +275,28 @@ const pages = [
     ]
   },
   {
-    id:'ready', type:'likert', col:C.am, label:'Part F', title:'Teamwork readiness',
+    id:'ready', type:'likert', col:COL.am, label:'Part F', title:'Teamwork skills readiness',
     note:'How prepared do you feel right now? 1 = Strongly disagree → 5 = Strongly agree',
     qs:[
       { id:'r1', text:'I feel prepared to contribute effectively to a team project right now.' },
-      { id:'r2', text:'I can communicate my ideas clearly and constructively in a team.' },
+      { id:'r2', text:'I can communicate my ideas clearly and constructively in a team setting.' },
       { id:'r3', text:'I am confident that I will honour my commitments to my team.' },
       { id:'r4', text:'I feel confident working in teams with members from different cultural backgrounds.' },
     ]
   },
   {
-    id:'employ', type:'likert', col:C.gr, label:'Part G', title:'Teamwork and your career',
+    id:'employ', type:'likert', col:COL.gr, label:'Part G', title:'Teamwork and your career',
     note:'1 = Strongly disagree → 5 = Strongly agree',
     qs:[
       { id:'g1', text:'Teamwork is important for my future career success.' },
       { id:'g2', text:'I am confident in my ability to work effectively in workplace teams.' },
       { id:'g3', text:'I could describe my teamwork experience confidently in a job interview.' },
-      { id:'g4', text:'Working in diverse teams at uni will prepare me for the workplace.' },
+      { id:'g4', text:'Working in diverse teams at university will prepare me for the workplace.' },
     ]
   },
   {
-    id:'open', type:'open', col:C.am, label:'Part H', title:'In your own words',
-    note:'A sentence or two is fine. No right answers.',
+    id:'open', type:'open', col:COL.am, label:'Part H', title:'In your own words',
+    note:'A sentence or two is fine. No right answers — your honest thoughts matter most.',
     qs:[
       { id:'o1', text:'What has been your biggest challenge when working in student teams?' },
       { id:'o2', text:'What do you think makes a team work well together?' },
@@ -258,6 +308,9 @@ const pages = [
 
 const DATA_PAGES = pages.filter(p => !['welcome','end'].includes(p.type));
 
+// ─────────────────────────────────────────────────────────────
+//  HELPER FUNCTIONS
+// ─────────────────────────────────────────────────────────────
 function rec(pid, qid, val) {
   if (!S.r[pid]) S.r[pid] = {};
   S.r[pid][qid] = val;
@@ -271,42 +324,60 @@ function can() {
   return p.qs.every(q => r[q.id] !== undefined);
 }
 
-function minibar(pid, qid, opts, col, label='Your response') {
+function minibar(pid, qid, opts, col) {
   const v = (S.r[pid]||{})[qid];
   if (!v) return '';
-  let rows = opts.map(o => {
-    const p = o===v ? 100 : 0;
+  const rows = opts.map(o => {
+    const pct = o===v ? 100 : 0;
     return `<div class="mbrow">
       <div class="mblbl">${o}</div>
-      <div class="mbtrack"><div class="mbfill" style="width:${p}%;background:${col.bar}"></div></div>
-      <div class="mbpct">${p}%</div>
+      <div class="mbtrack"><div class="mbfill" style="width:${pct}%;background:${col.bar}"></div></div>
+      <div class="mbpct">${pct}%</div>
     </div>`;
   }).join('');
   return `<div class="minibar-wrap">
-    <div class="minibar-title">${label.toUpperCase()}</div>
-    ${rows}
-    <div class="projector-note">Class results show on the projector when the instructor reveals them</div>
+    <div class="minibar-title">YOUR RESPONSE</div>${rows}
+    <div class="projnote">Class results show on the projector when your instructor reveals them</div>
   </div>`;
 }
 
+function classBadge() {
+  if (!CFG.unit && !CFG.group) return '';
+  const parts = [CFG.unit, CFG.group ? `Group ${CFG.group}` : '', CFG.sem].filter(Boolean);
+  return `<div class="class-tag">
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4B3EA0" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <strong>${parts.join(' · ')}</strong>
+  </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  RENDER FUNCTIONS
+// ─────────────────────────────────────────────────────────────
 function renderWelcome() {
+  const hasConfig = CFG.unit || CFG.group;
+  const configWarning = !hasConfig ? `
+    <div style="background:#fef3dc;border-left:3px solid #BA7517;border-radius:0 8px 8px 0;padding:.55rem .9rem;font-size:12px;color:#633806;margin-bottom:.9rem;line-height:1.5">
+      <strong>Demo mode:</strong> No class parameters detected in the URL. Students will still see the full activity, but submissions will not be tagged to a class. Share a personalised URL from the Class URLs spreadsheet for live use.
+    </div>` : '';
   return `<div class="card">
     <div class="wicon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4B3EA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4B3EA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
         <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
     </div>
     <div class="wtitle">Teamwork Check-In</div>
-    <div class="wsub">${CONFIG.UNIT}</div>
-    <div class="wbody">A quick anonymous activity before we form teams today. Tap through the sections on your phone — your instructor has the same screen on the projector.</div>
+    <div class="wsub">Not Just Group Work: Teaching Teamwork for Employability</div>
+    <div class="wmeta">${unitLabel}${groupLabel ? ' · ' + groupLabel : ''}${CFG.sem ? ' · ' + CFG.sem : ''}</div>
+    ${configWarning}
+    <div class="wbody">A quick anonymous activity before we form teams today. Work through it on your phone — your instructor has the same screen on the projector at the front.</div>
     <div class="chips">
       <span class="chip">About 12 minutes</span>
       <span class="chip">Anonymous</span>
-      <span class="chip">No wrong answers</span>
       <span class="chip">Not graded</span>
+      <span class="chip">No login needed</span>
     </div>
-    <div class="wunit">Western Sydney University</div>
+    <div class="wmeta">Western Sydney University  ·  Ethics H17019</div>
   </div>`;
 }
 
@@ -325,9 +396,7 @@ function renderChoices(p) {
       html += `<button class="cbtn${sel?' '+p.col.cls:''}" onclick="rec('${p.id}','${q.id}','${o.replace(/'/g,"\\'")}')">
         <span class="dot"></span><span>${o}</span></button>`;
     });
-    html += `</div>`;
-    if (picked) html += minibar(p.id, q.id, q.opts, p.col);
-    html += `</div>`;
+    html += `</div>${picked ? minibar(p.id, q.id, q.opts, p.col) : ''}</div>`;
   });
   return html + `</div>`;
 }
@@ -344,13 +413,10 @@ function renderYN(p) {
     html += `<div style="margin-bottom:.85rem"><div class="qtext">${q.text}</div>
       <div class="choices c3">`;
     opts.forEach(o => {
-      const sel = picked===o;
-      html += `<button class="cbtn${sel?' '+p.col.cls:''}" onclick="rec('${p.id}','${q.id}','${o}')">
+      html += `<button class="cbtn${picked===o?' '+p.col.cls:''}" onclick="rec('${p.id}','${q.id}','${o}')">
         <span class="dot"></span><span>${o}</span></button>`;
     });
-    html += `</div>`;
-    if (picked) html += minibar(p.id, q.id, opts, p.col);
-    html += `</div>`;
+    html += `</div>${picked ? minibar(p.id, q.id, opts, p.col) : ''}</div>`;
   });
   return html + `</div>`;
 }
@@ -383,7 +449,7 @@ function renderLikert(p) {
     const avg = (p.qs.reduce((s,q)=>s+r[q.id],0)/p.qs.length).toFixed(1);
     html += `<div class="statstrip">
       <div class="statcard"><div class="statnum" style="color:${p.col.acc}">${avg}</div><div class="statlbl">Your avg</div></div>
-      <div class="statcard"><div class="statnum" style="color:${p.col.acc}">${answered}/${p.qs.length}</div><div class="statlbl">Complete</div></div>
+      <div class="statcard"><div class="statnum" style="color:${p.col.acc}">${answered}/${p.qs.length}</div><div class="statlbl">Answered</div></div>
       <div class="statcard"><div class="statnum" style="color:#ccc">—</div><div class="statlbl">Class avg on projector</div></div>
     </div>`;
   }
@@ -403,28 +469,39 @@ function renderOpen(p) {
       <textarea class="openarea" rows="3" placeholder="Type here..." onchange="rec('${p.id}','${q.id}',this.value)">${v}</textarea>
     </div>`;
   });
-  html += `<div class="notebox green">Your words are anonymous. Your instructor may share common themes with the class.</div>`;
+  html += `<div class="notebox green">Your responses are completely anonymous. Your instructor may share common themes with the class.</div>`;
   return html + `</div>`;
 }
 
 function renderEnd() {
+  const qurl = buildQualtricsURL();
+  const missingQ = !CFG.qid;
   return `<div class="card">
     <div class="endwrap">
       <div class="endicon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <div class="endtitle">Activity done — thank you!</div>
-      <div class="endsub">One final step: tap the button below to formally submit your responses. It uses the same questions, takes 3 minutes, and is completely anonymous.</div>
+      <div class="endtitle">Activity done — great work!</div>
+      <div class="endsub">One final step: tap the button below to formally submit your responses. Same questions, takes about 3 minutes, completely anonymous.</div>
       <div class="nextsteps">
         <h3>What happens next today</h3>
-        <p>MBTI personality activity &rarr; team formation &rarr; team charter<br><br>Week 16: same survey again to measure your growth</p>
+        <p>MBTI personality activity &rarr; team formation &rarr; team charter<br><br>
+        Week 16: same survey again to measure your growth this semester</p>
       </div>
-      <a href="${CONFIG.QUALTRICS}" target="_blank" class="qbtn">Submit responses to Qualtrics &rarr;</a>
-      <div class="qnote">Opens in your browser &nbsp;&middot;&nbsp; No login &nbsp;&middot;&nbsp; Anonymous</div>
+      ${missingQ
+        ? `<div style="background:#fef3dc;border-radius:10px;padding:1rem;font-size:13px;color:#633806;text-align:left">
+             <strong>Setup note:</strong> Qualtrics link not configured. Add <code>?q=YOUR_SURVEY_ID</code> to the URL.
+           </div>`
+        : `<a href="${qurl}" target="_blank" class="qbtn">Submit responses to Qualtrics &rarr;</a>
+           <div class="qnote">Opens in your browser &nbsp;·&nbsp; No login &nbsp;·&nbsp; Anonymous</div>`
+      }
     </div>
   </div>`;
 }
 
+// ─────────────────────────────────────────────────────────────
+//  MAIN RENDER + NAVIGATION
+// ─────────────────────────────────────────────────────────────
 function render() {
   const p = pages[S.page];
   let html = '';
@@ -437,15 +514,15 @@ function render() {
   document.getElementById('app').innerHTML = html;
 
   const total = DATA_PAGES.length;
-  const done  = Math.max(0, S.page-1);
+  const done  = Math.max(0, S.page - 1);
   const pct   = S.page===0 ? 0 : S.page>=pages.length-1 ? 100 : Math.round(done/total*100);
-  document.getElementById('pf').style.width = pct+'%';
+  document.getElementById('pf').style.width = pct + '%';
   document.getElementById('pt').textContent =
     S.page===0 ? 'Getting started' :
     S.page>=pages.length-1 ? 'Complete — thank you!' :
     `Section ${done} of ${total}`;
 
-  document.getElementById('ndots').innerHTML = DATA_PAGES.map((_,i)=>{
+  document.getElementById('ndots').innerHTML = DATA_PAGES.map((_,i) => {
     const idx=i+1, act=S.page===idx, dn=S.page>idx;
     return `<div class="ndot${dn?' dn':act?' act':''}"></div>`;
   }).join('');
@@ -454,11 +531,11 @@ function render() {
   const next = document.getElementById('nextBtn');
   back.style.display = S.page===0 ? 'none' : '';
   if (p.type==='end') {
-    next.style.display='none';
+    next.style.display = 'none';
   } else {
-    next.style.display='';
-    const ok=can();
-    next.disabled=!ok;
+    next.style.display = '';
+    const ok = can();
+    next.disabled = !ok;
     next.style.background = ok ? (p.col ? p.col.acc : '#4B3EA0') : '#ccc';
     next.textContent =
       S.page===0 ? 'Start' :
@@ -470,7 +547,7 @@ function render() {
 function go(dir) {
   if (dir===1 && !can()) return;
   S.page = Math.max(0, Math.min(pages.length-1, S.page+dir));
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   render();
 }
 
